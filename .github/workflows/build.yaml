@@ -1,0 +1,52 @@
+---
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  "build":
+    strategy:
+      matrix:
+        include:
+          - os: "ubuntu-22.04"
+            shell: "bash"
+          - os: "macos-12"
+            shell: "bash"
+          - os: "windows-latest"
+            shell: "msys2 {0}"
+
+    runs-on: "${{ matrix.os }}"
+
+    defaults:
+      run:
+        shell: "${{ matrix.shell }}"
+
+    steps:
+      - uses: "actions/checkout@v3"
+
+      - uses: "msys2/setup-msys2@v2"
+        if: ${{ runner.os == 'Windows' }}
+        with:
+          update: true
+          pacboy: >-
+            toolchain:p
+            cmake:p
+            ninja:p
+            wxwidgets3.2-msw:p
+
+      - name: "Set up environment"
+        run: "./bin/setup_${{ runner.os }}.sh"
+
+      - name: "Build"
+        run: "./bin/build.sh"
+
+      - uses: "softprops/action-gh-release@v1"
+        with:
+          files: |
+            tmp/cpack/*.zip
+            tmp/cpack/*.tar.gz
+            tmp/cpack/*.7z
+            tmp/cpack/*.deb
+            tmp/cpack/*.dmg
+            tmp/cpack/*.exe
