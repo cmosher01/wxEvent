@@ -1,6 +1,4 @@
 /tmp/
 
-*.log
-
-/nbproject/private/
+/nbproject/
 /nbbuild/
