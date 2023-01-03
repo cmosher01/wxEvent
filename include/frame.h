@@ -9,15 +9,15 @@ class EventFrame : public wxFrame {
     void CreateMenuBar();
 
     void OnUpdateFileOpen(wxUpdateUIEvent &event);
-    void OnFileOpen(wxCommandEvent &event);
+    void OnFileOpen(const wxCommandEvent &event);
 
 public:
     EventFrame();
     virtual ~EventFrame();
 
-    bool Create(wxString name);
+    bool Create(const wxString name);
 
-    void OnCloseWindow(wxCloseEvent &event);
+    void OnCloseWindow(const wxCloseEvent &event);
 };
 
 #endif

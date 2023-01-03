@@ -8,17 +8,22 @@
 class EventFrame;
 
 class EventApp : public wxApp {
-    EventFrame *f1;
+    EventFrame *frame;
+
+    void CreateFrame();
+    void DeleteFrame();
+
+    virtual bool OnInit() override;
+    virtual int OnExit() override;
 
 public:
     EventApp();
     virtual ~EventApp();
 
-    virtual bool OnInit() override;
-    virtual int OnExit() override;
+    void OnFileExit(const wxCommandEvent &event);
+    void OnEndSession(const wxCloseEvent &event);
 
-    void OnCloseFrame(wxFrame *frame);
-    void OnFileExit(wxCommandEvent &event);
+    void CloseFrame(wxFrame *frame);
 };
 
 wxDECLARE_APP(EventApp);

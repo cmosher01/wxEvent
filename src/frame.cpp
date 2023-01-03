@@ -12,7 +12,7 @@ EventFrame::~EventFrame() {
     std::cerr << "EventFrame::~EventFrame" << std::endl;
 }
 
-bool EventFrame::Create(wxString name) {
+bool EventFrame::Create(const wxString name) {
     std::cerr << "EventFrame::Create " << name << ": " << this << std::endl;
 
     if (!wxFrame::Create(nullptr, wxID_ANY, name)) {
@@ -33,8 +33,8 @@ void EventFrame::CreateMenuBar() {
     wxMenu *menuFile = new wxMenu;
 
     menuFile->Append(wxID_OPEN);
-    Bind(wxEVT_MENU, &EventFrame::OnFileOpen, this, wxID_OPEN);
     Bind(wxEVT_UPDATE_UI, &EventFrame::OnUpdateFileOpen, this, wxID_OPEN);
+    Bind(wxEVT_MENU, &EventFrame::OnFileOpen, this, wxID_OPEN);
 
     menuFile->AppendSeparator();
 
@@ -48,9 +48,9 @@ void EventFrame::CreateMenuBar() {
     SetMenuBar(menuBar);
 }
 
-void EventFrame::OnCloseWindow(wxCloseEvent &event) {
+void EventFrame::OnCloseWindow(const wxCloseEvent &event) {
     std::cerr << "EventFrame::OnCloseWindow " << this->GetTitle() << std::endl;
-    wxGetApp().OnCloseFrame(this);
+    wxGetApp().CloseFrame(this);
 }
 
 void EventFrame::OnUpdateFileOpen(wxUpdateUIEvent &event) {
@@ -58,6 +58,6 @@ void EventFrame::OnUpdateFileOpen(wxUpdateUIEvent &event) {
     event.Enable(false);
 }
 
-void EventFrame::OnFileOpen(wxCommandEvent &event) {
+void EventFrame::OnFileOpen(const wxCommandEvent &event) {
     std::cerr << "EventFrame::OnFileOpen " << this->GetTitle() << std::endl;
 }
